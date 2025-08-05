@@ -49,3 +49,65 @@
           table.innerHTML = '';
           data.forEach(row => {
             table.innerHTML += `
+              <tr>
+                <td>${row.ID}</td>
+                <td>${row.NAMA}</td>
+                <td>${row.USERNAME}</td>
+                <td>${row.LEVEL}</td>
+              </tr>
+            `;
+          });
+        })
+        .catch(error => console.error('Fetch Error:', error));
+    }
+
+    function createData() {
+      const nama = document.getElementById('nama').value;
+      const username = document.getElementById('username').value;
+      const level = document.getElementById('level').value;
+
+      if (!nama || !username || !level) {
+        alert('Lengkapi data terlebih dahulu');
+        return;
+      }
+
+      const id = Date.now().toString();
+
+      fetch(API_URL, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: convertToFormData({
+          action: 'create',
+          ID: id,
+          NAMA: nama,
+          USERNAME: username,
+          LEVEL: level
+        }),
+        redirect: 'follow'
+      })
+      .then(res => res.text())
+      .then(txt => {
+        const response = JSON.parse(txt);
+        alert(response.message);
+        fetchData();
+        clearForm();
+      })
+      .catch(error => console.error('Fetch Error:', error));
+    }
+
+    function clearForm() {
+      document.getElementById('nama').value = '';
+      document.getElementById('username').value = '';
+      document.getElementById('level').value = '';
+    }
+
+    function convertToFormData(obj) {
+      const formData = new URLSearchParams();
+      for (const key in obj) {
+        formData.append(key, obj[key]);
+      }
+      return formData;
+    }
+  </script>
+</body>
+</html>
