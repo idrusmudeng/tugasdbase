@@ -3,11 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Data Google Sheets</title>
+  <title>CRUD Google Sheets</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Data dari Google Sheets</h1>
+  <h1>Data Google Sheets</h1>
+
+  <div class="form-container">
+    <input type="text" id="nama" placeholder="Nama">
+    <input type="text" id="username" placeholder="Username">
+    <select id="level">
+      <option value="">Pilih Level</option>
+      <option value="Admin">Admin</option>
+      <option value="User">User</option>
+    </select>
+    <button onclick="createData()">Tambah Data</button>
+  </div>
 
   <div class="table-container">
     <table>
@@ -38,17 +49,3 @@
           table.innerHTML = '';
           data.forEach(row => {
             table.innerHTML += `
-              <tr>
-                <td>${row.ID}</td>
-                <td>${row.NAMA}</td>
-                <td>${row.USERNAME}</td>
-                <td>${row.LEVEL}</td>
-              </tr>
-            `;
-          });
-        })
-        .catch(error => console.error('Fetch Error:', error));
-    }
-  </script>
-</body>
-</html>
