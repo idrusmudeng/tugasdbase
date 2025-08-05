@@ -36,7 +36,7 @@ function createData() {
     return;
   }
 
-  const id = Date.now().toString();  // ID otomatis pakai timestamp
+  const id = Date.now().toString();
 
   fetch(API_URL, {
     method: 'POST',
@@ -47,21 +47,18 @@ function createData() {
       NAMA: nama,
       USERNAME: username,
       LEVEL: level
-    })
+    }),
+    redirect: 'follow'
   })
-  .then(res => res.json())
-  .then(response => {
+  .then(res => res.text())
+  .then(txt => {
+    console.log('Response:', txt);
+    const response = JSON.parse(txt);
     alert(response.message);
     fetchData();
     clearForm();
-  });
-}
-
-function editData(row) {
-  document.getElementById('id').value = row.ID;
-  document.getElementById('nama').value = row.NAMA;
-  document.getElementById('username').value = row.USERNAME;
-  document.getElementById('level').value = row.LEVEL;
+  })
+  .catch(error => console.error('Fetch Error:', error));
 }
 
 function updateData() {
@@ -84,14 +81,17 @@ function updateData() {
       NAMA: nama,
       USERNAME: username,
       LEVEL: level
-    })
+    }),
+    redirect: 'follow'
   })
-  .then(res => res.json())
-  .then(response => {
+  .then(res => res.text())
+  .then(txt => {
+    const response = JSON.parse(txt);
     alert(response.message);
     fetchData();
     clearForm();
-  });
+  })
+  .catch(error => console.error('Fetch Error:', error));
 }
 
 function deleteData(id) {
@@ -102,14 +102,24 @@ function deleteData(id) {
       body: convertToFormData({
         action: 'delete',
         ID: id
-      })
+      }),
+      redirect: 'follow'
     })
-    .then(res => res.json())
-    .then(response => {
+    .then(res => res.text())
+    .then(txt => {
+      const response = JSON.parse(txt);
       alert(response.message);
       fetchData();
-    });
+    })
+    .catch(error => console.error('Fetch Error:', error));
   }
+}
+
+function editData(row) {
+  document.getElementById('id').value = row.ID;
+  document.getElementById('nama').value = row.NAMA;
+  document.getElementById('username').value = row.USERNAME;
+  document.getElementById('level').value = row.LEVEL;
 }
 
 function clearForm() {
