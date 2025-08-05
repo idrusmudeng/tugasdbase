@@ -22,7 +22,8 @@ function fetchData() {
           </tr>
         `;
       });
-    });
+    })
+    .catch(error => console.error('Fetch Error:', error));
 }
 
 function createData() {
@@ -35,13 +36,17 @@ function createData() {
     return;
   }
 
+  const id = Date.now().toString();  // ID otomatis pakai timestamp
+
   fetch(API_URL, {
     method: 'POST',
-    body: JSON.stringify({
+    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+    body: convertToFormData({
       action: 'create',
-      nama: nama,
-      username: username,
-      level: level
+      ID: id,
+      NAMA: nama,
+      USERNAME: username,
+      LEVEL: level
     })
   })
   .then(res => res.json())
@@ -72,12 +77,13 @@ function updateData() {
 
   fetch(API_URL, {
     method: 'POST',
-    body: JSON.stringify({
+    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+    body: convertToFormData({
       action: 'update',
-      id: id,
-      nama: nama,
-      username: username,
-      level: level
+      ID: id,
+      NAMA: nama,
+      USERNAME: username,
+      LEVEL: level
     })
   })
   .then(res => res.json())
@@ -92,9 +98,10 @@ function deleteData(id) {
   if (confirm('Yakin ingin menghapus data ini?')) {
     fetch(API_URL, {
       method: 'POST',
-      body: JSON.stringify({
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: convertToFormData({
         action: 'delete',
-        id: id
+        ID: id
       })
     })
     .then(res => res.json())
@@ -110,4 +117,12 @@ function clearForm() {
   document.getElementById('nama').value = '';
   document.getElementById('username').value = '';
   document.getElementById('level').value = '';
+}
+
+function convertToFormData(obj) {
+  const formData = new URLSearchParams();
+  for (const key in obj) {
+    formData.append(key, obj[key]);
+  }
+  return formData;
 }
