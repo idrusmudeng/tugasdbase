@@ -3,25 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CRUD Google Sheets</title>
+  <title>Data Google Sheets</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Jarjit</h1>
-
-  <div class="form-container">
-    <input type="hidden" id="id">
-    <input type="text" id="nama" placeholder="Nama">
-    <input type="text" id="username" placeholder="Username">
-    <select id="level">
-      <option value="">Pilih Level</option>
-      <option value="Admin">Admin</option>
-      <option value="User">User</option>
-    </select>
-    <button onclick="createData()">Tambah</button>
-    <button onclick="updateData()">Update</button>
-    <button onclick="clearForm()">Clear</button>
-  </div>
+  <h1>Data dari Google Sheets</h1>
 
   <div class="table-container">
     <table>
@@ -31,15 +17,38 @@
           <th>Nama</th>
           <th>Username</th>
           <th>Level</th>
-          <th>Aksi</th>
         </tr>
       </thead>
       <tbody id="data-table">
-        <!-- Data akan dimuat disini -->
+        <!-- Data akan dimuat di sini -->
       </tbody>
     </table>
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    const API_URL = 'https://script.google.com/macros/s/AKfycbzKnebfaqptl2O5QDrZfakE6rUp39PdIw1GM3g4NSEfFu9dVXC1KnNEUiGXrMOziXmG/exec';
+
+    document.addEventListener('DOMContentLoaded', fetchData);
+
+    function fetchData() {
+      fetch(API_URL)
+        .then(res => res.json())
+        .then(data => {
+          const table = document.getElementById('data-table');
+          table.innerHTML = '';
+          data.forEach(row => {
+            table.innerHTML += `
+              <tr>
+                <td>${row.ID}</td>
+                <td>${row.NAMA}</td>
+                <td>${row.USERNAME}</td>
+                <td>${row.LEVEL}</td>
+              </tr>
+            `;
+          });
+        })
+        .catch(error => console.error('Fetch Error:', error));
+    }
+  </script>
 </body>
 </html>
