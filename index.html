@@ -1,1 +1,45 @@
-ini isinya index
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CRUD Google Sheets</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>CRUD Google Sheets</h1>
+
+  <div class="form-container">
+    <input type="hidden" id="id">
+    <input type="text" id="nama" placeholder="Nama">
+    <input type="text" id="username" placeholder="Username">
+    <select id="level">
+      <option value="">Pilih Level</option>
+      <option value="Admin">Admin</option>
+      <option value="User">User</option>
+    </select>
+    <button onclick="createData()">Tambah</button>
+    <button onclick="updateData()">Update</button>
+    <button onclick="clearForm()">Clear</button>
+  </div>
+
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nama</th>
+          <th>Username</th>
+          <th>Level</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody id="data-table">
+        <!-- Data akan dimuat disini -->
+      </tbody>
+    </table>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
